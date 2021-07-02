@@ -7,13 +7,21 @@ import (
 	"log"
 )
 
-type ChatBot struct {
+type chatBot struct {
 	client  *nlp.Client
 	request *nlp.ChatBotRequest
 }
 
+// NewChatBot 对话机器人
+func NewChatBot(p Param) *chatBot {
+	return &chatBot{
+		client:  initClient(p),
+		request: nlp.NewChatBotRequest(),
+	}
+}
+
 // Request 发送请求
-func (c *ChatBot) Request(query string, openId string, flag uint64) (response *nlp.ChatBotResponse, err error) {
+func (c *chatBot) Request(query string, openId string, flag uint64) (response *nlp.ChatBotResponse, err error) {
 	if flag != 0 {
 		c.request.Flag = common.Uint64Ptr(flag)
 	}

@@ -6,11 +6,11 @@ import (
 )
 
 func main() {
-	app := corp.App{
-		CorpId:     "xxxxxxx",
-		AgentId:    "xxxxx",
-		CorpSecret: "xxxxxxxxxxxxxxx",
-	}
+	am := corp.NewAgentMessage(corp.Param{
+		AgentId:    "AgentId",
+		CorpId:     "CorpId",
+		CorpSecret: "CorpSecret",
+	})
 
-	fmt.Println(app.SendAgentTextMsg("1", "hello world"))
+	fmt.Println(am.SendAgentTextMsg("1", "hello world"))
 }

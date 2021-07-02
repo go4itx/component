@@ -28,11 +28,3 @@ func initClient(p Param) (client *nlp.Client) {
 	client, _ = nlp.NewClient(credential, p.Region, cpf)
 	return
 }
-
-// NewChatBot 对话机器人
-func NewChatBot(p Param) (chatBot *ChatBot) {
-	return &ChatBot{
-		client:  initClient(p),
-		request: nlp.NewChatBotRequest(),
-	}
-}

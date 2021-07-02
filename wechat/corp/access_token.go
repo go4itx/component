@@ -9,17 +9,24 @@ import (
 	"time"
 )
 
+type Param struct {
+	AccessTokenPath string `json:"accessTokenPath"`
+	AgentId         string `json:"agentId"`
+	CorpId          string `json:"corpId"`
+	CorpSecret      string `json:"corpSecret"`
+}
+
 const tokenUrl = "https://qyapi.weixin.qq.com/cgi-bin/gettoken?corpid=%v&corpsecret=%v"
 
-// AccessToken 获取token
-func (app *App) accessToken() (accessToken string, err error) {
-	if app.AccessTokenPath == "" {
-		app.AccessTokenPath = "."
+// accessToken 获取token
+func accessToken(param Param) (accessToken string, err error) {
+	if param.AccessTokenPath == "" {
+		param.AccessTokenPath = "."
 	}
 
 	viper.SetConfigName("access_token")
 	viper.SetConfigType("json")
-	viper.AddConfigPath(app.AccessTokenPath)
+	viper.AddConfigPath(param.AccessTokenPath)
 	if err = viper.ReadInConfig(); err != nil {
 		if _, ok := err.(viper.ConfigFileNotFoundError); ok {
 			if err = viper.SafeWriteConfig(); err != nil {
@@ -50,7 +57,7 @@ func (app *App) accessToken() (accessToken string, err error) {
 	_, err = resty.New().R().
 		SetResult(&res).
 		SetHeader("Content-Type", "application/json").
-		Get(fmt.Sprintf(tokenUrl, app.CorpId, app.CorpSecret))
+		Get(fmt.Sprintf(tokenUrl, param.CorpId, param.CorpSecret))
 	if err != nil {
 		return
 	}

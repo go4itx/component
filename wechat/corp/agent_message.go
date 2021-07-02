@@ -7,9 +7,19 @@ import (
 	"log"
 )
 
-const agentMsgUrl = "https://qyapi.weixin.qq.com/cgi-bin/message/send?access_token=%v"
+const agentMessageUrl = "https://qyapi.weixin.qq.com/cgi-bin/message/send?access_token=%v"
 
-type AgentMsgResult struct {
+type agentMessage struct {
+	param Param
+}
+
+func NewAgentMessage(param Param) *agentMessage {
+	return &agentMessage{
+		param: param,
+	}
+}
+
+type AgentMessageResult struct {
 	ErrCode      int    `json:"errcode"`
 	ErrMsg       string `json:"errmsg"`
 	InvalidUser  string `json:"invaliduser"`
@@ -18,8 +28,8 @@ type AgentMsgResult struct {
 }
 
 // 发送应用文本消息
-func (app *App) SendAgentTextMsg(party string, msg string) (res AgentMsgResult, err error) {
-	accessToken, err := app.accessToken()
+func (a *agentMessage) SendAgentTextMsg(party string, msg string) (res AgentMessageResult, err error) {
+	accessToken, err := accessToken(a.param)
 	if err != nil {
 		return
 	}
@@ -40,8 +50,8 @@ func (app *App) SendAgentTextMsg(party string, msg string) (res AgentMsgResult, 
 	_, err = resty.New().R().
 		SetResult(&res).
 		SetHeader("Content-Type", "application/json").
-		SetBody([]byte(fmt.Sprintf(data, app.AgentId, party, msg))).
-		Post(fmt.Sprintf(agentMsgUrl, accessToken))
+		SetBody([]byte(fmt.Sprintf(data, a.param.AgentId, party, msg))).
+		Post(fmt.Sprintf(agentMessageUrl, accessToken))
 	if err != nil {
 		return
 	}
