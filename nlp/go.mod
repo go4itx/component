@@ -1,4 +1,4 @@
-module nlp
+module github.com/go4it-x/component/nlp
 
 go 1.15
 

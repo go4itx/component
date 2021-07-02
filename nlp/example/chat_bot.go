@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"nlp"
+	"github.com/go4it-x/component/nlp"
 )
 
 func main() {

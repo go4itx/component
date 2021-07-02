@@ -1,4 +1,4 @@
-module github.com/go4it-x/util/wechat
+module github.com/go4it-x/component/wechat
 
 go 1.15
 

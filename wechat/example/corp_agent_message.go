@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"github.com/go4it-x/util/wechat/corp"
+	"github.com/go4it-x/component/wechat/corp"
 )
 
 func main() {
